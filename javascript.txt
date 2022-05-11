@@ -1,0 +1,232 @@
+Imperative programming ->
+    let longPasswords = [];
+    for (let i = 0; i < passwords.length; i++) {
+    const password = passwords[i];
+    if (password.length >= 9) {
+        longPasswords.push(password);
+    }
+    }
+Declarative programming ->
+    const longPasswords = passwords.filter(password => password.length >= 9);
+
+
+Arrays
+
+    indexOf("water") 
+        º1 arg -> the element that we are looking to match inside the array.
+        return -> the position of the first match, if doesnt match it returns -1.
+
+    slice(1,3) -> it doenst modify the original array.
+        º1 arg -> start position of the slice.
+        º2 arg -> end position of the slice.
+        return -> a copy of what i have sliced.
+
+    splice(...args) -> MODIFIES THE ORIGINAL ARRAY removing elements!!
+        º1 arg -> the start position.
+        º2 arg -> the number of elements to remove including the start position.
+        º3,4,5,etc.. -> the elements that u wanna put in the hole left by the splice. Example-> [1,2,5,5].splice(2,1,3,4) -> [1,2,3,4,5]
+        return -> the elements removed
+
+    pop() -> remove the last element of the array
+        return -> return the element removed.
+
+    shift () -> remove the first element of the array
+        return -> return the element removed.
+
+    push(...args) -> push data in the END of the array
+        º1,2,3,etc... -> the data that u want to push 
+        return -> the size of the array after the push
+
+    unshift(...args) -> push data in the START of the array
+        º1,2,3,etc... -> the data that u want to push 
+        return -> the size of the array after the push
+
+    const [a, b,,, c] = [1, 2, 3, 4, 5, 6] -> The values a, b, and c as 1, 2, 5.
+
+    map((item,index)=>{ return item }) -> return a new array
+
+    forEach((item,index)=>{ //do something }) -> doenst return a new array, bad pratice.
+
+    reduce((accumulator, value)=>{  return accumulator + value},0) -> the accumulator will be the value of the return, so in this example we will sum all values.
+        notice that the 2º argument is the initial value of the accumulator !! 
+        and the return of the reduce is the final value of the accumulator.
+
+    filter((item)=>{return false or true}) -> if we return true the element will be on the final array that is returned by the function.
+    
+    find(item => return true) -> it will return the first item that returns true.
+
+
+
+
+
+Promises ->
+    const makeServerRequest = new Promise((resolve, reject) => {
+    // responseFromServer is set to false to represent an unsuccessful response from a server
+    let responseFromServer = false;
+        
+    if(responseFromServer) {
+        resolve("We got the data");
+    } else {  
+        reject("Data not received");
+    }
+    })
+    .then(result => {
+    console.log(result);
+    })
+    .catch(error => {
+      console.log(error);
+    });
+
+
+Features ->
+     default values ->
+        taxes = taxes ?? 0.05
+        if taxes is undefined, so the new value will be 0.05
+
+    is undefined ?
+        console.log(person?.adress?.street) -> if person or adress is undefined it wont throw an error.
+        
+        
+
+Async/await ->  The word “async” before a function means one simple thing: a function always returns a promise
+    await works only inside async functions
+    let value = await promise;
+
+    example:
+            async function f() {
+                let promise = new Promise((resolve, reject) => {
+                    setTimeout(() => resolve("done!"), 1000)
+                });
+
+                let result = await promise; // wait until the promise resolves (*)
+
+                alert(result); // "done!"
+            }
+            f();
+    basically the await replaces the need of using .then on promises inside an async function.
+        let response = await fetch('/article/promise-chaining/user.json');
+        let user = await response.json();
+        
+
+Classes
+    class Book {
+    constructor(author) {
+        this._author = author;
+    }
+    // getter
+    get writer() {
+        return this._author;
+    }
+    // setter
+    set writer(updatedAuthor) {
+        this._author = updatedAuthor;
+    }
+    }
+    const novel = new Book('anonymous');
+    console.log(novel.writer);
+    novel.writer = 'newAuthor';
+    console.log(novel.writer);
+    -> The console would display the strings anonymous and newAuthor.
+
+
+Concepts 
+    Debounce -> perfect for a search box that fetch data when u stop typing.
+        const debounce(cb, delay = 1000) =>{
+            let timeout;
+
+            return (...args) => {
+                clearTimeout(timeout)
+                setTimeout(()=>{
+                    cb(...args)
+                },delay)
+            }
+        }
+        const updateDebounceText = debounce(text=>{
+            variavelTexto.textcontent = text
+        })
+        
+        each time we type the function "updateDebounceText" will be called, but ONLY after 1 sec.
+
+    Throttle -> make something slower, like when we resize an window we dont want to call a function 1000 times while resizing the window, so we Throttle it.
+    
+    i dont think that i will need to use it, so if i need just search it.
+
+Regular expressions
+
+    [ ] : the character set
+    [ — ] : a range
+    [ ]{} : states the number of times to be repeated within {}
+        example: [0-9]{11} -> SUCCESS : the string must have 11 numbers in a row. (12345678912)
+    [ ]{x,y} : gives a range (between x and y) of the number of times to be repeated within {}
+        example: [0,9]{10,12}  ->  the string must have 10 or 11 or 12 numbers in a row. (1234567891)
+    [ ]{x,} : gives a range (x or more) of the number of times to be repeated within {}
+        example: [0,9]{5,} ->  the string must have 5 numbers in a row or more. (12345677)
+
+
+
+
+    -> group of characters
+    \d : matches any digit character (same as [0–9])
+    \w : matches any word character (a-z, A-Z, 0–9, and _)
+    \s : matches a whitespace character (spaces, tabs, etc)
+    \t : matches a tab character only)
+    \ : the escape character
+    if its in caps lock then it will select the reverse.
+    Example -> \D : matches anything that isnt digits.
+    More examples: 
+    he?llo?    
+        SUCCESS : 'hello', 'hell', 'hllo', 'hll' 
+    car.       
+        SUCCESS : 'car@', 'car]', etc
+    a\*[a-z]+  
+        SUCCESS : 'a*bbbbbbbb', etc
+
+
+    -> special powers
+    [^] : the negate symbol in a character set (matches everything except for character(s) after ‘^’)
+    + : the one-or-more quantifier
+    * : the 0-or-more quantifier (matches the previous element zero or more times)
+    ? : the zero-or-one quantifier (makes a preceding character optional)
+    . : any character whatsoever (except the newline character)
+    
+    -> Start and end with
+    ^[ ] : must have the requirement at the beginning
+    [ ]$ : must have the requirement at the end
+
+    ( | ) : or
+
+    [g] global : don't return after first match
+    [m] multi line : ^ and $ match start/end of line
+    [i] insensitive : case insensitive match
+
+    problems ->
+    Telephone must be a valid UK telephone number (11 digits) : /^\d{11}$/
+    Username must be alphanumeric and contain 5–11 characters (case insensitive) : /^[a-z\d]{5,11}$/i
+    Password must alphanumeric (@, _ , – are also allowed) and be 8–20 characters : /^[\w@-]{8,20}$/
+    Slug must contain only lowercase letters, numbers and hyphens and be 8–20 characters : /^[a-z\d-]{8,20}$/
+
+    regex.test('string') -> it will return true if something matches. 
+        let testStr = "freeCodeCamp";
+        let testRegex = /Code/;
+        testRegex.test(testStr);
+    
+    "Code Camp".replace(/(\w+)\s(\w+)/, '$2 $1');  -> Camp Code
+        let wrongText = "The sky is silver.";
+        let silverRegex = /silver/;
+        wrongText.replace(silverRegex, "blue");
+    the 2º argument is what u want to replace with.
+    
+    string.match(regex) -> it will return the match.
+        let alphabetRegexV2 = /\w+/g;  -> return all the words in an array.
+        let alphabetRegexV2 = /\w/g;  -> return all the letters in an array.
+        let alphabetRegexV2 = /\w/;  -> return the first letter. 
+        let alphabetRegexV2 = /\w+\s\w+/g; // return all pair of words in an array, example: [ 'The five', 'boxing wizards', 'jump quickly' ]
+
+    let repeatRegex = /(\w+) \1 \1/;
+    repeatRegex.test(repeatStr); // Returns true
+    repeatStr.match(repeatRegex); // Returns ["row row row", "row"]
+
+
+
+
+
